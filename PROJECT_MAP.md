@@ -12,7 +12,7 @@
 > 快照日期：2026-09-11。记录"实际存在什么"，不记录"计划有什么"。
 
 - 仓库根目录：`starrail-battle-simulator/`
-- **当前尚无任何源代码、依赖或构建配置。**
+- **工程骨架已建立（P1-02）。** 运行时依赖 0；dev 依赖仅 `typescript`、`@types/node`。
 - 当前实际存在的文件：
 
 | 文件 | 说明 |
@@ -25,9 +25,14 @@
 | `ARCHITECTURE.md` | 架构原则 |
 | `TESTING.md` | 测试规范 |
 | `ROADMAP.md` | 任务与阶段 |
+| `package.json` | npm 工程配置（ESM；scripts：typecheck / test / start） |
+| `package-lock.json` | 依赖锁定 |
+| `tsconfig.json` | TypeScript 配置（依 ADR-002） |
+| `src/main.ts` | composition root（P1-02 骨架启动验证） |
+| `tests/unit/smoke.test.ts` | P1-02 smoke test |
 
-- **技术栈尚未选定。** 未初始化 `package.json`，未安装任何依赖。
-- **当前阶段**：Phase 0（规范建立）。见 [ROADMAP.md](ROADMAP.md)。
+- **技术栈已选定**（TypeScript / Node.js ≥ 24.18.0 / npm，见 [ARCHITECTURE.md](ARCHITECTURE.md) ADR-002）。`package.json` 已初始化，未安装运行时依赖。
+- **当前阶段**：Phase 1（P1-01、P1-02 已完成，其余未开始）。见 [ROADMAP.md](ROADMAP.md)。
 
 ## 2. 目录结构
 
@@ -42,14 +47,45 @@ starrail-battle-simulator/
 ├── SPEC.md
 ├── ARCHITECTURE.md
 ├── TESTING.md
-└── ROADMAP.md
+├── ROADMAP.md
+├── package.json
+├── package-lock.json
+├── tsconfig.json
+├── src/
+│   ├── main.ts        # composition root（P1-02 骨架验证）
+│   ├── core/          # L0（空，.gitkeep）
+│   ├── cli/           # L1（空，.gitkeep）
+│   └── report/        # L2（空，.gitkeep）
+├── tests/
+│   ├── unit/          # smoke.test.ts
+│   ├── integration/   # （空，.gitkeep）
+│   └── golden/        # （空，.gitkeep）
+└── data/
+    └── golden/        # （空，.gitkeep）
 ```
 
-### 2.2 目标结构
+> `node_modules/` 为 npm 生成目录，由 `.gitignore` 忽略，不在结构中列出。
 
-> **待定，尚未创建。**
-> 目录结构属于架构决策，须先由 [ARCHITECTURE.md](ARCHITECTURE.md) 通过 ADR 决定，再回填到本节。
-> 在架构决策完成前，本文件不预设任何目录。
+### 2.2 目标结构（Phase 1）
+
+> 依据 [ARCHITECTURE.md](ARCHITECTURE.md) ADR-003 批准。**已于 P1-02 创建**（实际结构见 2.1）；后续扩展仍以此结构为基准。
+
+```text
+starrail-battle-simulator/
+├── src/
+│   ├── core/       # L0 战斗核心
+│   ├── cli/        # L1 适配层：CLI 入口 + 场景数据加载
+│   ├── report/     # L2 表现层：事件流 → 战斗日志渲染
+│   └── main.ts     # composition root（应用组装与启动，不属于 L0/L1/L2）
+├── tests/
+│   ├── unit/       # 单元测试
+│   ├── integration/# 集成测试
+│   └── golden/     # golden 测试代码
+└── data/
+    └── golden/     # golden 样本数据（输入场景 + 期望输出 + 来源记录）
+```
+
+> Phase 1 明确不创建：`src/characters/`、`src/effects/`、`src/buffs/`、`src/skills/` 等机制目录；`src/web/`、`frontend/` 等 UI 目录；`dist/`、`build/`、`coverage/`；`benchmarks/`、`scripts/`、`docs/`、`tests/fixtures/`。依赖规则与理由见 ADR-003。
 
 ## 3. 文档索引与职责边界
 
@@ -121,8 +157,11 @@ starrail-battle-simulator/
 
 ## 6. 入口点
 
-- **目前无代码入口点**（尚无源码）。
-- 未来入口点（如何运行、如何跑测试）在工程初始化后回填至本节。
+- 入口点：`src/main.ts`（composition root，见 [ARCHITECTURE.md](ARCHITECTURE.md) ADR-003）。
+- 运行命令：
+  - `npm start` → `node src/main.ts`（当前仅输出 P1-02 骨架启动信息）
+  - `npm test` → `node --test`（Node 内置测试运行器）
+  - `npm run typecheck` → `tsc --noEmit`
 
 ## 7. 维护规则
 

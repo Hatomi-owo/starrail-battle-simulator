@@ -50,7 +50,7 @@
 | ID | 任务 | 前置依赖 | 状态 |
 |---|---|---|---|
 | P1-01 | 确定技术栈并获项目负责人批准 | P0-02 | 已完成 |
-| P1-02 | 工程初始化（构建、测试框架、目录结构） | P1-01, [ARCHITECTURE.md](ARCHITECTURE.md) A-004 | 未开始 |
+| P1-02 | 工程初始化（构建、测试框架、目录结构） | P1-01, [ARCHITECTURE.md](ARCHITECTURE.md) A-004 | 已完成 |
 | P1-03 | 仅对 Phase 1 最小机制集合完成证据调查，登记 SPEC 条目 | P0-02, P0-03 | 未开始 |
 | P1-04 | 核心数据模型 + seeded RNG | P1-02 | 未开始 |
 | P1-05 | 时间轴 / 行动顺序调度 | P1-03, P1-04, [ARCHITECTURE.md](ARCHITECTURE.md) A-001 | 未开始 |
