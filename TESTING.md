@@ -41,7 +41,7 @@
 **没有可追溯来源的样本，不得进入测试。**
 样本来源形式须遵循 [SPEC.md](SPEC.md) 第 3 节的来源分级。
 
-> 样本数据的具体存放位置：待工程初始化后由 [PROJECT_MAP.md](PROJECT_MAP.md) 记录。
+> 样本数据的具体存放位置：`data/golden/`（已由 [PROJECT_MAP.md](PROJECT_MAP.md) 记录；目录位置以 PROJECT_MAP 为权威来源）。
 
 ## 4. Given / When / Then
 
@@ -55,7 +55,10 @@
 
 ## 5. 期望值与证据的绑定
 
-- 每条测试必须引用它所属的 **SPEC 条目 ID**，使失败能直接定位到机制。
+- 每条**涉及游戏机制或游戏规则期望值的正式测试**，必须引用对应的 **SPEC 条目 ID**，使失败能直接定位到机制。
+  - 工程基础设施测试 / smoke test（如仅验证 Node / TypeScript / `node:test` 工程环境）**不要求** SPEC ID；
+  - 但此类测试**不得包含任何游戏规则断言**；
+  - golden / unit / integration 中只要测试的是游戏机制，仍必须遵守 SPEC ID 绑定规则。
 - 期望值不得来自：
   - AI 记忆
   - 现有实现的输出（自证循环）
